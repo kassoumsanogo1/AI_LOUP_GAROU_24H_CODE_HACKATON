@@ -3,7 +3,7 @@ import random
 import time, datetime
 import requests
 
-headers = {"Authorization": "Bearer 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"}
+headers = {"Authorization": "Bearer *************************"}
 current_model_number = 0
 total_model_number = 5
 
