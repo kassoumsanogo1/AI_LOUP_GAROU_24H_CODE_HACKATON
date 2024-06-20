@@ -1,0 +1,13 @@
+VOTE PHASE :
+-It is now the VOTE phase.
+-Please response only with this following JSON_BLOCK and do substitutions
+-JSON_BLOCK : {
+    "voted_player": "[voted player]",
+    "reasoning": "[reasoning]"
+}
+-Please take in to account all of the information you already have to make the best play.
+-You must vote on another player because you must not vote for yourself.
+-If you don't have enough information to vote, you should still pick another player.
+-Please vote in a way to attempt to win the game and please include your reasoning.
+
+

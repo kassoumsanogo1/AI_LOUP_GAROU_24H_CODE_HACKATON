@@ -1,0 +1,19 @@
+NIGHT PHASE :
+-It is now the NIGHT phase.
+-As the seer, you should determine if you want to look at another players card or two center cards.
+-Whichever option you choose, please include your reasoning.
+-Please response only with this following JSON_BLOCK and do substitutions in choosing Option 1 or Option 2 :
+-JSON_BLOCK :
+Option 1: Two center cards
+{
+    "choice": "center",
+    "reasoning": "[reasoning]"
+}
+
+Option 2: Another player card (not yourself) 
+{
+    "choice": "player".
+    "player": "[Player name]",
+    "reasoning": "[reasoning]"
+}
+

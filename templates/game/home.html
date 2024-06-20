@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu de Loup-Garou</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+            background-image: url('https://i.ibb.co/zfMq5gf/background.webp'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        #roles-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 80px);
+            overflow: hidden;
+        }
+
+        .role {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #eee;
+            transition: transform 0.3s ease;
+        }
+
+        .role img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .role:hover {
+            transform: scale(1.1);
+        }
+
+        #game-container {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        #game-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        #game-button img {
+            width: 120px; /* Adjust size as needed */
+            height: 120px; /* Adjust size as needed */
+        }
+
+        #game-button:hover img {
+            transform: scale(1.1);
+        }
+
+        #game-text {
+            color: white;
+            font-size: 1.5em;
+            margin-top: 1px;
+            font-weight : bold;
+        }
+        
+        @keyframes slideInFromLeft {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+ 
+    <main>
+        <div id="roles-container">
+            <div class="role" id="villageois">
+                <img src="https://i.ibb.co/w4z0wY8/villageois.webp" alt="Villageois">
+            </div>
+            <div class="role" id="loup-garou">
+                <img src="https://i.ibb.co/y5Mt18C/loup.webp" alt="Loup-Garou">
+            </div>
+            <div class="role" id="voyante">
+                <img src="https://i.ibb.co/T0kz4z0/voyante.webp" alt="Voyante">
+            </div>
+            <div class="role" id="chasseur">
+                <img src="https://i.ibb.co/cY824DD/chasseur.webp" alt="Chasseur">
+            </div>
+            <div id="game-container">
+                <button id="game-button" onclick="window.location.href='{% url 'play_game' %}'">
+                    <img src="https://i.ibb.co/6sXQFbs/feu.png" alt="Game Button"> <!-- Replace with your image URL -->
+                </button>
+                <div id="game-text">Click-On-Fire</div>
+            </div>
+        </div>
+    </main>
+  
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const roles = document.querySelectorAll('.role');
+            const gameButton = document.getElementById('game-button');
+            const radius = 200; // Radius of the circular path
+            let angle = 0; // Initial angle
+
+            function moveRoles() {
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+
+                roles.forEach((role, index) => {
+                    const roleAngle = angle + (index * (360 / roles.length));
+                    const radian = roleAngle * (Math.PI / 180);
+                    const x = centerX + radius * Math.cos(radian) - role.offsetWidth / 2;
+                    const y = centerY + radius * Math.sin(radian) - role.offsetHeight / 2;
+                    role.style.left = `${x}px`;
+                    role.style.top = `${y}px`;
+                });
+                angle += 1; // Increment angle for the next frame
+            }
+
+            setInterval(moveRoles, 18); // Change position every 25 milliseconds
+            moveRoles(); // Initial position
+        });
+    </script>
+</body>
+</html>

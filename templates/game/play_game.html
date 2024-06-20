@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Werewolf Game</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://i.ibb.co/2PvFK58/img1.jpg') no-repeat center center fixed; /* Ajoute l'image de fond */
+            background-size: cover; /* Couvre toute la page avec l'image */            
+            margin: 0;
+            padding: 0;
+           
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 225px auto;
+            padding: 20px ;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+            
+        }
+
+        input[type="text"], select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            margin: 20px;
+            padding: 10px;
+            background-color: #FF4901;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #FE1B00;
+        }
+
+        #messages, #user-prompts {
+            margin-bottom: 40px;
+            margin-top: 40px;
+        }
+
+        #messages p, #user-prompts label {
+            background-color: #f9f9f9;
+            border-left: 4px solid #FE1B00;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #messages p {
+            border-left-color: #FF4901;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        /* Styles pour l'icône de chargement et l'effet d'assombrissement */
+        #loading {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            text-align: center;
+        }
+        
+        .spinner-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .spinner-circle {
+            width: 220px;
+            height: 220px;
+            border: 8px solid rgba(0, 0, 0, 0.1);
+            border-top: 8px solid #ff4500;
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+            position: absolute;
+
+        }
+        
+
+        .spinner-container img {
+            width: 200px;
+            height: 200px;
+        }
+        
+        #loading-text {
+            color: white;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 20px;
+
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+                
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+         @keyframes fill {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(180deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Werewolf Game</h1>
+        <form id="gameForm" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Start Game</button>
+        </form>
+
+        {% if messages %}
+            <h2>Game Messages</h2>
+            <div id="messages">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if user_prompts %}
+            <h2>User Prompts</h2>
+            <form method="post">
+                {% csrf_token %}
+                {% for prompt in user_prompts %}
+                    <label>{{ prompt }}</label>
+                    <input type="text" name="user_response" id="user_response">
+                    <button type="submit">Submit</button>
+                {% endfor %}
+            </form>
+        {% endif %}
+    </div>
+
+    <div id="overlay"></div>
+    <div id="loading">
+        <div class="spinner-container">
+        <div class="spinner-circle"></div>
+            <img src="https://i.ibb.co/pbKCdxs/white-wolf-head-is-carved-into-a-wall.png" alt="Wolf Head">        
+        </div>
+        <p id="loading-text">Veuillez patienter, vos IA discutent !</p>
+    </div>
+
+    <script>
+        document.getElementById("gameForm").addEventListener("submit", function() {
+            document.getElementById("loading").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var messages = document.querySelectorAll("#messages p");
+            messages.forEach(function(message, index) {
+                setTimeout(function() {
+                    message.style.opacity = 1;
+                }, index * 500); // Délai d'affichage de 1 seconde entre chaque message
+            });
+        });
+        
+    </script>
+</body>
+</html>
